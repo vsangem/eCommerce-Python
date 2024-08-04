@@ -2,10 +2,15 @@ import os.path
 import time
 from datetime import datetime
 
+
+from faker import Faker
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 # # Test Case 1: Register User
 #
@@ -641,23 +646,37 @@ driver.find_element(By.LINK_TEXT, 'Cart').click()
 driver.find_element(By.CSS_SELECTOR, '.col-sm-6 a').click()
 
 # 14. Verify Address Details and Review Your Order
-assert driver.find_element(By.CSS_SELECTOR, 'li.address_firstname.address_lastname').text.__contains__(name)
+assert driver.find_element(By.CSS_SELECTOR, 'li.address_firstname.address_lastname').text.__contains__('Trisha')
 review_your_order = driver.find_element(By.CSS_SELECTOR, '.cart_description h4 a')
 print('You\'re ordering: '+review_your_order.text)
 
 # 15. Enter description in comment text area and click 'Place Order'
 driver.find_element(By.CSS_SELECTOR, '.form-control').send_keys('Nothing to Add, Please Proceed!')
 driver.find_element(By.CSS_SELECTOR, '.btn.btn-default.check_out').click()
-time.sleep(5)
+
 # 16. Enter payment details: Name on Card, Card Number, CVC, Expiration date
+fake = Faker()
+driver.find_element(By.CSS_SELECTOR, 'input[data-qa="name-on-card"]').send_keys(fake.name_male())
+driver.find_element(By.CSS_SELECTOR, 'input[data-qa="card-number"]').send_keys(fake.credit_card_number())
+driver.find_element(By.CSS_SELECTOR, 'input[data-qa="cvc"]').send_keys(fake.credit_card_security_code())
+driver.find_element(By.CSS_SELECTOR, 'input[data-qa="expiry-month"]').send_keys('10')
+driver.find_element(By.CSS_SELECTOR, 'input[data-qa="expiry-year"]').send_keys('1999')
 
 # 17. Click 'Pay and Confirm Order' button
+driver.find_element(By.CSS_SELECTOR, 'button[data-qa="pay-button"]').click()
 
 # 18. Verify success message 'Your order has been placed successfully!'
+success_message = WebDriverWait(driver, 10).until(
+    EC.visibility_of_element_located((By.CSS_SELECTOR, '#success_message div'))).text.strip()
+assert success_message == 'Your order has been placed successfully!'
 
 # 19. Click 'Delete Account' button
+driver.find_element(By.LINK_TEXT, 'Delete Account').click()
 
 # 20. Verify 'ACCOUNT DELETED!' and click 'Continue' button
+assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Deleted!'.upper()
+driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
+driver.close()
 
 
 
