@@ -933,6 +933,53 @@ assert driver.find_element(By.CSS_SELECTOR, 'span#empty_cart p b').text.__contai
 driver.close()
 
 
+# Test Case 18: View Category Products
+
+# 1. Launch browser
+driver = webdriver.Chrome()
+driver.maximize_window()
+
+# 2. Navigate to url 'http://automationexercise.com'
+driver.get('https://www.automationexercise.com/')
+
+# 3. Verify that categories are visible on left side bar
+driver.execute_script("window.scrollBy(0,500);")
+assert driver.find_element(By.CSS_SELECTOR, '.col-sm-3 div.left-sidebar h2').text == 'Category'.upper()
+
+# 4. Click on 'Women' category
+driver.find_element(By.CSS_SELECTOR, 'h4.panel-title a').click()
+women_category_drilldown = random.choice(['SAREE', 'TOPS', 'DRESS'])
+
+# 5. Click on any category link under 'Women' category, for example: Dress
+women_categories = driver.find_elements(By.CSS_SELECTOR, '#Women div ul li a')
+for category in women_categories:
+    if category.text.strip().upper() == women_category_drilldown:
+        category.click()
+        break
+
+# 6. Verify that category page is displayed and confirm text 'WOMEN - TOPS PRODUCTS'
+wait = WebDriverWait(driver,10)
+women_breadcrum = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.features_items h2.title.text-center'))).text.strip()
+assert women_breadcrum.__contains__('WOMEN - ' + women_category_drilldown.strip() + ' PRODUCTS'), f'Actual Message is: {women_breadcrum}'
+print('Category is: ' + women_breadcrum)
+
+# 7. On left side bar, click on any sub-category link of 'Men' category
+driver.execute_script("window.scrollBy(0,250);")
+categories = driver.find_elements(By.CSS_SELECTOR, 'h4.panel-title a')
+for category in categories:
+    if category.text.strip().upper() == 'MEN':
+        category.click()
+men_category_drilldown = random.choice(['TSHIRTS', 'JEANS'])
+men_categories = driver.find_elements(By.CSS_SELECTOR, '#Men div ul li a')
+for men_category in men_categories:
+    if men_category.text.strip().upper() == men_category_drilldown:
+        men_category.click()
+        break
+
+# 8. Verify that user is navigated to that category page
+men_breadcrum = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.features_items h2.title.text-center'))).text.strip()
+assert men_breadcrum == 'MEN - ' + men_category_drilldown.strip() + ' PRODUCTS', f'Actual Message is: {men_breadcrum}'
+print('Category is: ' + men_breadcrum)
 
 
 
