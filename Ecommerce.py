@@ -1119,7 +1119,42 @@ fake = Faker()
 # assert driver.find_element(By.CSS_SELECTOR, '.alert-success.alert span').text == 'Thank you for your review.'
 
 
-# Test Case 22: Add to cart from Recommended items
+# # Test Case 22: Add to cart from Recommended items
+#
+# # 1. Launch browser
+# driver = webdriver.Edge()
+# driver.maximize_window()
+#
+# # 2. Navigate to url 'http://automationexercise.com'
+# driver.get('https://www.automationexercise.com/')
+#
+# # 3. Scroll to bottom of page
+# recommended_items = driver.find_elements(By.CSS_SELECTOR, '.title.text-center')
+# if len(recommended_items) > 1:
+#     recommended_item = recommended_items[1]
+#     driver.execute_script("arguments[0].scrollIntoView(true);", recommended_item)
+#     recommended_item_text = recommended_item.text
+#
+# # 4. Verify 'RECOMMENDED ITEMS' are visible
+#     assert recommended_item_text == 'recommended items'.upper()
+#
+# # 5. Click on 'Add To Cart' on Recommended product
+# recommended_products = driver.find_elements(By.XPATH, '//*[@id="recommended-item-carousel"]/div/div/div/div/div/div/p')
+# if recommended_products:
+#     random_product_index = random.randint(0, len(recommended_products) - 1)
+#     selected_product = recommended_products[random_product_index]
+#     selected_product_name = selected_product.text
+#     add_to_cart_button = selected_product.find_element(By.XPATH, './following-sibling::a/i')
+#     add_to_cart_button.click()
+#
+# # 6. Click on 'View Cart' button
+# WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, '.modal-content div:nth-child(2) a'))).click()
+#
+# # 7. Verify that product is displayed in cart page
+# assert driver.find_element(By.CSS_SELECTOR, '.table.table-condensed tbody tr td:nth-child(2) h4').text == selected_product_name
+
+
+# Test Case 23: Verify address details in checkout page
 
 # 1. Launch browser
 driver = webdriver.Edge()
@@ -1128,34 +1163,93 @@ driver.maximize_window()
 # 2. Navigate to url 'http://automationexercise.com'
 driver.get('https://www.automationexercise.com/')
 
-# 3. Scroll to bottom of page
-recommended_items = driver.find_elements(By.CSS_SELECTOR, '.title.text-center')
-if len(recommended_items) > 1:
-    recommended_item = recommended_items[1]
-    driver.execute_script("arguments[0].scrollIntoView(true);", recommended_item)
-    recommended_item_text = recommended_item.text
+# 3. Verify that home page is visible successfully
+homepage = driver.find_element(By.XPATH, '//h1').text
+assert 'Automation' in homepage and 'Exercise' in homepage, f'Text not found in header, got: {homepage}'
 
-# 4. Verify 'RECOMMENDED ITEMS' are visible
-    assert recommended_item_text == 'recommended items'.upper()
+# 4. Click 'Signup / Login' button
+driver.find_element(By.LINK_TEXT, 'Signup / Login').click()
 
-# 5. Click on 'Add To Cart' on Recommended product
-recommended_products = driver.find_elements(By.XPATH, '//*[@id="recommended-item-carousel"]/div/div/div/div/div/div/p')
-if recommended_products:
-    random_product_index = random.randint(0, len(recommended_products) - 1)
-    selected_product = recommended_products[random_product_index]
-    selected_product_name = selected_product.text
-    add_to_cart_button = selected_product.find_element(By.XPATH, './following-sibling::a/i')
-    add_to_cart_button.click()
+# 5. Fill all details in Signup and create account
+driver.find_element(By.XPATH, '//input[@data-qa="signup-name"]').send_keys(name)
+driver.find_element(By.XPATH, '//input[@data-qa="signup-email"]').send_keys(randomEmail)
+driver.find_element(By.XPATH, '//button[@data-qa="signup-button"]').click()
+driver.find_element(By.CSS_SELECTOR, '#id_gender2').click()
+driver.find_element(By.CSS_SELECTOR, '#password').send_keys('QA@123')
+days = driver.find_element(By.CSS_SELECTOR, '#days')
+select_day = Select(days)
+select_day.select_by_index(28)
 
-# 6. Click on 'View Cart' button
-WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, '.modal-content div:nth-child(2) a'))).click()
+month = driver.find_element(By.CSS_SELECTOR, '#months')
+select_month = Select(month)
+select_month.select_by_index(5)
 
-# 7. Verify that product is displayed in cart page
-assert driver.find_element(By.CSS_SELECTOR, '.table.table-condensed tbody tr td:nth-child(2) h4').text == selected_product_name
+year = driver.find_element(By.CSS_SELECTOR, '#years')
+select_year = Select(year)
+select_year.select_by_value('1998')
+driver.execute_script("window.scrollBy(0, 500);")
+driver.find_element(By.CSS_SELECTOR, '.checkbox div span input#newsletter').click()
 
+driver.find_element(By.CSS_SELECTOR, '.checkbox div span input#optin').click()
 
+driver.find_element(By.CSS_SELECTOR, 'input#first_name').send_keys("Trisha")
+driver.find_element(By.CSS_SELECTOR, 'input#last_name').send_keys('Krishnan')
+driver.find_element(By.CSS_SELECTOR, 'input#company').send_keys('Kollywood Film Industry')
+driver.find_element(By.CSS_SELECTOR, 'input#address1').send_keys('Chennai')
+driver.find_element(By.CSS_SELECTOR, 'input#address2').send_keys('TamilNadu')
+country = driver.find_element(By.CSS_SELECTOR, 'select#country')
+select_country = Select(country)
+select_country.select_by_visible_text('Singapore')
+driver.find_element(By.CSS_SELECTOR, 'input#state').send_keys('Central Region')
+driver.find_element(By.CSS_SELECTOR, 'input#city').send_keys('Marine Parade')
+driver.find_element(By.CSS_SELECTOR, 'input#zipcode').send_keys('449307')
+driver.find_element(By.CSS_SELECTOR, 'input#mobile_number').send_keys('9876543210')
 
+driver.execute_script("window.scrollBy(0, 500);")
+driver.find_element(By.XPATH, '//button[text()="Create Account"]').click()
 
+# 6. Verify 'ACCOUNT CREATED!' and click 'Continue' button
+assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Created!'.upper()
+driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
+
+# 7. Verify ' Logged in as username' at top
+assert driver.find_element(By.CSS_SELECTOR, 'li a b').text == name
+
+# 8. Add products to cart
+actions = ActionChains(driver)
+first_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[0]
+actions.move_to_element(first_product).perform()
+driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[0].click()
+time.sleep(2)
+driver.find_element(By.CSS_SELECTOR, '.modal-content div:nth-child(3) button').click()
+second_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[1]
+actions.move_to_element(second_product).perform()
+driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[1].click()
+time.sleep(2)
+driver.find_element(By.CSS_SELECTOR, '.modal-content div:nth-child(3) button').click()
+
+# 9. Click 'Cart' button
+driver.find_element(By.LINK_TEXT, 'Cart').click()
+
+# 10. Verify that cart page is displayed
+assert driver.find_element(By.CSS_SELECTOR, '.breadcrumb li:nth-child(2)').text == 'Shopping Cart'
+
+# 11. Click Proceed To Checkout
+driver.find_element(By.CSS_SELECTOR, '.col-sm-6 a').click()
+
+# 12. Verify that the delivery address is same address filled at the time registration of account
+assert driver.find_element(By.CSS_SELECTOR, 'li.address_firstname.address_lastname').text.__contains__('Trisha')
+
+# 13. Verify that the billing address is same address filled at the time registration of account
+assert driver.find_elements(By.CSS_SELECTOR, 'li.address_firstname.address_lastname')[1].text.__contains__('Trisha')
+
+# 14. Click 'Delete Account' button
+driver.find_element(By.LINK_TEXT, 'Delete Account').click()
+
+# 15. Verify 'ACCOUNT DELETED!' and click 'Continue' button
+assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Deleted!'.upper()
+driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
+driver.close()
 
 
 
