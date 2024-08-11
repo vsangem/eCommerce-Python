@@ -1381,7 +1381,33 @@ fake = Faker()
 # driver.close()
 
 
-# Test Case 25: Verify Scroll Up using 'Arrow' button and Scroll Down functionality
+# # Test Case 25: Verify Scroll Up using 'Arrow' button and Scroll Down functionality
+#
+# # 1. Launch browser
+# driver = webdriver.Edge()
+# driver.maximize_window()
+#
+# # 2. Navigate to url 'http://automationexercise.com'
+# driver.get('https://www.automationexercise.com/')
+#
+# # 3. Verify that home page is visible successfully
+# homepage = driver.find_element(By.XPATH, '//h1').text
+# assert 'Automation' in homepage and 'Exercise' in homepage, f'Text not found in header, got: {homepage}'
+#
+# # 4. Scroll down page to bottom
+# driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+#
+# # 5. Verify 'SUBSCRIPTION' is visible
+# assert driver.find_element(By.CSS_SELECTOR, '.col-sm-3.col-sm-offset-1 h2').text == 'Subscription'.upper()
+#
+# # 6. Click on arrow at bottom right side to move upward
+# driver.find_element(By.CSS_SELECTOR, '#scrollUp').click()
+#
+# # 7. Verify that page is scrolled up and 'Full-Fledged practice website for Automation Engineers' text is visible on screen
+# assert driver.find_element(By.CSS_SELECTOR, '.col-sm-6 h2').text == 'Full-Fledged practice website for Automation Engineers'
+
+
+# Test Case 26: Verify Scroll Up without 'Arrow' button and Scroll Down functionality
 
 # 1. Launch browser
 driver = webdriver.Edge()
@@ -1397,15 +1423,14 @@ assert 'Automation' in homepage and 'Exercise' in homepage, f'Text not found in 
 # 4. Scroll down page to bottom
 driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
+
 # 5. Verify 'SUBSCRIPTION' is visible
 assert driver.find_element(By.CSS_SELECTOR, '.col-sm-3.col-sm-offset-1 h2').text == 'Subscription'.upper()
 
-# 6. Click on arrow at bottom right side to move upward
-driver.find_element(By.CSS_SELECTOR, '#scrollUp').click()
+# 6. Scroll up page to top
+driver.execute_script("window.scrollTo(0, 0);")
 
 # 7. Verify that page is scrolled up and 'Full-Fledged practice website for Automation Engineers' text is visible on screen
 assert driver.find_element(By.CSS_SELECTOR, '.col-sm-6 h2').text == 'Full-Fledged practice website for Automation Engineers'
-
-
 
 
