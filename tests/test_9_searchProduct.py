@@ -1,3 +1,5 @@
+import random
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -21,8 +23,9 @@ def test_search_a_product():
     assert driver.find_element(By.CSS_SELECTOR, 'h2.title.text-center').text == 'All Products'.upper()
 
     # 6. Enter product name in search input and click search button
-    searchProduct = 'Green Side Placket Detail T-Shirt'
-    driver.find_element(By.CSS_SELECTOR, 'input#search_product').send_keys(searchProduct)
+    searchProducts = driver.find_elements(By.CSS_SELECTOR, '.productinfo.text-center p')
+    random_product_search = random.choice(searchProducts).text
+    driver.find_element(By.CSS_SELECTOR, 'input#search_product').send_keys(random_product_search)
     driver.find_element(By.CSS_SELECTOR, 'button#submit_search').click()
 
     # 7. Verify 'SEARCHED PRODUCTS' is visible
@@ -31,5 +34,5 @@ def test_search_a_product():
     # 8. Verify all the products related to search are visible
     searchedProduct = driver.find_element(By.CSS_SELECTOR, '.productinfo.text-center p')
     searchedProduct.is_displayed()
-    assert searchedProduct.text.__contains__('Green Side Placket Detail')
+    assert searchedProduct.text == random_product_search
     driver.close()
