@@ -4,7 +4,6 @@ import random
 import time
 from datetime import datetime
 
-
 from faker import Faker
 from selenium import webdriver
 from selenium.webdriver import ActionChains
@@ -13,145 +12,111 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+# Joshua.Nguyenzwilliams@example.org
+# Ashley.Wilsondwalker@example.com
+# Austin.Campbellsonyathomas@hotmail.com
+# QA@123
 
-# # Test Case 1: Register User
-#
-# driver = webdriver.Edge()
-# driver.maximize_window()
-# driver.get('https://www.automationexercise.com/')
-# homepage = driver.find_element(By.XPATH, '//h1').text
-#
-# # 3. Verify that home page is visible successfully
-# assert 'Automation' in homepage and 'Exercise' in homepage, f'Text not found in header, got: {homepage}'
-#
-# # 4. Click on 'Signup / Login' button
-# driver.find_element(By.LINK_TEXT, 'Signup / Login').click()
-#
-# # 5. Verify 'New User Signup!' is visible
-# newUserSignup = driver.find_element(By.CSS_SELECTOR,'.signup-form h2').text
-# assert 'New User Signup!' in newUserSignup
-#
-#
-# 6. Enter name and email address
+# ************* 9,14, Remove All hard coding, 19, 20, 22
+
+
 def generate_email_with_timestamp():
     time_stamp = datetime.now().strftime("%Y%m%d%H%M%S")
     return f'{"Tulika"}.{"singh"}_{time_stamp}@yahoo.com'
 
 
-randomEmail = generate_email_with_timestamp()
+random_email = generate_email_with_timestamp()
+fake = Faker()
 
-name = 'Tulika Singh'
-# driver.find_element(By.XPATH, '//input[@data-qa="signup-name"]').send_keys(name)
-# driver.find_element(By.XPATH, '//input[@data-qa="signup-email"]').send_keys(randomEmail)
-#
-# # 7. Click 'Signup' button
-# driver.find_element(By.XPATH, '//button[@data-qa="signup-button"]').click()
-#
-# # 8. Verify that 'ENTER ACCOUNT INFORMATION' is visible
-# signup = driver.find_element(By.XPATH, '//h2').text.title()
-# assert 'Enter Account Information' in signup, f'Sign up Text has been changed Text:{signup}'
-#
-# # 9. Fill details: Title, Name, Email, Password, Date of birth
-# driver.find_element(By.CSS_SELECTOR, '#id_gender2').click()
-# assert driver.find_element(By.CSS_SELECTOR, '#email').get_property('value') == randomEmail
-# driver.find_element(By.CSS_SELECTOR, '#password').send_keys('QA@123')
-# days = driver.find_element(By.CSS_SELECTOR, '#days')
-# select_day = Select(days)
-# select_day.select_by_index(21)
-#
-# month = driver.find_element(By.CSS_SELECTOR, '#months')
-# select_month = Select(month)
-# select_month.select_by_index(6)
-#
-# year = driver.find_element(By.CSS_SELECTOR, '#years')
-# select_year = Select(year)
-# select_year.select_by_value('2005')
-# driver.execute_script("window.scrollBy(0, 500);")
-#
-# # 10. Select checkbox 'Sign up for our newsletter!'
-# driver.find_element(By.CSS_SELECTOR, '.checkbox div span input#newsletter').click()
-#
-# # 11. Select checkbox 'Receive special offers from our partners!'
-# driver.find_element(By.CSS_SELECTOR, '.checkbox div span input#optin').click()
-#
-# # 12. Fill details: First name, Last name, Company, Address, Address2, Country, State, City, Zipcode, Mobile Number
-# driver.find_element(By.CSS_SELECTOR, 'input#first_name').send_keys("Deekshitha")
-# driver.find_element(By.CSS_SELECTOR, 'input#last_name').send_keys('Ponugoti')
-# driver.find_element(By.CSS_SELECTOR, 'input#company').send_keys('AliBaba')
-# driver.find_element(By.CSS_SELECTOR, 'input#address1').send_keys('Hyderabad')
-# driver.find_element(By.CSS_SELECTOR, 'input#address2').send_keys('Telangana')
-# country = driver.find_element(By.CSS_SELECTOR, 'select#country')
-# select_country = Select(country)
-# select_country.select_by_visible_text('Singapore')
-# driver.find_element(By.CSS_SELECTOR, 'input#state').send_keys('Central Region')
-# driver.find_element(By.CSS_SELECTOR, 'input#city').send_keys('Marine Parade')
-# driver.find_element(By.CSS_SELECTOR, 'input#zipcode').send_keys('449307')
-# driver.find_element(By.CSS_SELECTOR, 'input#mobile_number').send_keys('7896541230')
-#
-# # 13. Click 'Create Account button'
-# driver.execute_script("window.scrollBy(0, 500);")
-# driver.find_element(By.XPATH, '//button[text()="Create Account"]').click()
-# print(randomEmail)
-#
-# # 14. Verify that 'ACCOUNT CREATED!' is visible
-# assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Created!'.upper()
-#
-# # 15. Click 'Continue' button
-# driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
-#
-# # 16. Verify that 'Logged in as username' is visible
-# assert driver.find_element(By.CSS_SELECTOR, 'li a b').text == name
-#
-# # 17. Click 'Delete Account' button
-# driver.find_element(By.LINK_TEXT, 'Delete Account').click()
-#
-# # 18. Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
-# assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Deleted!'.upper()
-# driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
-# driver.close()
-#
-#
-# # # Test Case 2: Login User with correct email and password
-# #
-# # # 1. Launch browser
-# # driver = webdriver.Edge()
-# # driver.maximize_window()
-# #
-# # # 2. Navigate to url 'http://automationexercise.com'
-# # driver.get('https://www.automationexercise.com/')
-# #
-# # # 3. Verify that home page is visible successfully
-# # homepage = driver.find_element(By.XPATH, '//h1').text
-# # assert 'Automation' in homepage and 'Exercise' in homepage, f'Text not found in header, got: {homepage}'
-# #
-# # # 4. Click on 'Signup / Login' button
-# # driver.find_element(By.LINK_TEXT, 'Signup / Login').click()
-# #
-# # # 5. Verify 'Login to your account' is visible
-# # loginUser = driver.find_element(By.CSS_SELECTOR,'.login-form h2').text
-# # assert 'Login to your account' in loginUser
-# #
-# # # 6. Enter correct email address and password
-# # driver.find_element(By.XPATH, '//input[@data-qa="login-email"]').send_keys('Tulika.singh_20240803222313@yahoo.com')
-# # driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys('QA@123')
-# #
-# # # 7. Click 'login' button
-# # driver.find_element(By.XPATH, '//button[@data-qa="login-button"]').click()
-# # time.sleep(2)
-# #
-# # # 8. Verify that 'Logged in as username' is visible
-# # # name = 'Tulika Singh'
-# # assert driver.find_element(By.CSS_SELECTOR, 'li a b').text == name
-# #
-# # # 9. Click 'Delete Account' button
-# # driver.find_element(By.LINK_TEXT, 'Delete Account').click()
-# #
-# # # 10. Verify that 'ACCOUNT DELETED!' is visible
-# # assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Deleted!'.upper()
-# # driver.close()
-#
-#
-# # Test Case 3: Login User with incorrect email and password
+# Test Case 1: Register User
+
+# 1. Launch browser
+driver = webdriver.Edge()
+driver.maximize_window()
+
+#  2. Navigate to url 'http://automationexercise.com'
+driver.get('https://www.automationexercise.com/')
+homepage = driver.find_element(By.XPATH, '//h1').text
+assert 'Automation' in homepage and 'Exercise' in homepage, f'Text not found in header, got: {homepage}'
+
+# Click on 'Signup / Login' button
+driver.find_element(By.LINK_TEXT, 'Signup / Login').click()
+
+# Verify 'New User Signup!' is visible
+new_user_signup = driver.find_element(By.CSS_SELECTOR, '.signup-form h2').text
+assert 'New User Signup!' in new_user_signup
+
+# Enter name and email address
+name = fake.name_female()  # 'Ahaana Singh'
+driver.find_element(By.XPATH, '//input[@data-qa="signup-name"]').send_keys(name)
+driver.find_element(By.XPATH, '//input[@data-qa="signup-email"]').send_keys(random_email)
+
+# Click 'Signup' button
+driver.find_element(By.XPATH, '//button[@data-qa="signup-button"]').click()
+
+# Verify that 'ENTER ACCOUNT INFORMATION' is visible
+signup = driver.find_element(By.XPATH, '//h2').text.title()
+assert 'Enter Account Information' in signup, f'Sign up Text has been changed Text:{signup}'
+
+# Fill details: Title, Name, Email, Password, Date of birth
+driver.find_element(By.CSS_SELECTOR, '#id_gender2').click()
+assert driver.find_element(By.CSS_SELECTOR, '#email').get_property('value') == random_email
+driver.find_element(By.CSS_SELECTOR, '#password').send_keys('QA@123')
+days = driver.find_element(By.CSS_SELECTOR, '#days')
+select_day = Select(days)
+select_day.select_by_index(21)
+
+month = driver.find_element(By.CSS_SELECTOR, '#months')
+select_month = Select(month)
+select_month.select_by_index(6)
+
+year = driver.find_element(By.CSS_SELECTOR, '#years')
+select_year = Select(year)
+select_year.select_by_value('2005')
+driver.execute_script("window.scrollBy(0, 500);")
+
+# Select checkbox 'Sign up for our newsletter!'
+driver.find_element(By.CSS_SELECTOR, '.checkbox div span input#newsletter').click()
+
+# Select checkbox 'Receive special offers from our partners!'
+driver.find_element(By.CSS_SELECTOR, '.checkbox div span input#optin').click()
+
+# Fill details: First name, Last name, Company, Address, Address2, Country, State, City, Zipcode, Mobile Number
+driver.find_element(By.CSS_SELECTOR, 'input#first_name').send_keys("Deekshitha")
+driver.find_element(By.CSS_SELECTOR, 'input#last_name').send_keys('Ponugoti')
+driver.find_element(By.CSS_SELECTOR, 'input#company').send_keys('AliBaba')
+driver.find_element(By.CSS_SELECTOR, 'input#address1').send_keys('Hyderabad')
+driver.find_element(By.CSS_SELECTOR, 'input#address2').send_keys('Telangana')
+country = driver.find_element(By.CSS_SELECTOR, 'select#country')
+select_country = Select(country)
+select_country.select_by_visible_text('Singapore')
+driver.find_element(By.CSS_SELECTOR, 'input#state').send_keys('Central Region')
+driver.find_element(By.CSS_SELECTOR, 'input#city').send_keys('Marine Parade')
+driver.find_element(By.CSS_SELECTOR, 'input#zipcode').send_keys('449307')
+driver.find_element(By.CSS_SELECTOR, 'input#mobile_number').send_keys('7896541230')
+
+# Click 'Create Account button'
+driver.execute_script("window.scrollBy(0, 500);")
+driver.find_element(By.XPATH, '//button[text()="Create Account"]').click()
+
+# Verify that 'ACCOUNT CREATED!' is visible
+assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Created!'.upper()
+
+# Click 'Continue' button
+driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
+
+# Verify that 'Logged in as username' is visible
+assert driver.find_element(By.CSS_SELECTOR, 'li a b').text == name
+
+# Click 'Delete Account' button
+driver.find_element(By.LINK_TEXT, 'Delete Account').click()
+
+# Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
+assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Deleted!'.upper()
+driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
+
+
+# # Test Case 2: Login User with correct email and password
 #
 # # 1. Launch browser
 # driver = webdriver.Edge()
@@ -171,16 +136,54 @@ name = 'Tulika Singh'
 # loginUser = driver.find_element(By.CSS_SELECTOR,'.login-form h2').text
 # assert 'Login to your account' in loginUser
 #
-# # 6. Enter incorrect email address and password
-# driver.find_element(By.XPATH, '//input[@data-qa="login-email"]').send_keys(randomEmail)
+# # 6. Enter correct email address and password
+# driver.find_element(By.XPATH, '//input[@data-qa="login-email"]').send_keys('Tulika.singh_20240803222313@yahoo.com')
 # driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys('QA@123')
 #
 # # 7. Click 'login' button
 # driver.find_element(By.XPATH, '//button[@data-qa="login-button"]').click()
+# time.sleep(2)
 #
-# # 8. Verify error 'Your email or password is incorrect!' is visible
-# assert driver.find_element(By.CSS_SELECTOR, '[action="/login"] p').text == 'Your email or password is incorrect!'
+# # 8. Verify that 'Logged in as username' is visible
+# name_1 = 'Ponugoti'
+# assert driver.find_element(By.CSS_SELECTOR, 'li a b').text == name_1
+#
+# # 9. Click 'Delete Account' button
+# driver.find_element(By.LINK_TEXT, 'Delete Account').click()
+#
+# # 10. Verify that 'ACCOUNT DELETED!' is visible
+# assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Deleted!'.upper()
 # driver.close()
+
+
+# Test Case 3: Login User with incorrect email and password
+# # 1. Launch browser
+# driver = webdriver.Edge()
+# driver.maximize_window()
+#
+# # 2. Navigate to url 'http://automationexercise.com'
+# driver.get('https://www.automationexercise.com/')
+#
+# # 3. Verify that home page is visible successfully
+# homepage = driver.find_element(By.XPATH, '//h1').text
+# assert 'Automation' in homepage and 'Exercise' in homepage, f'Text not found in header, got: {homepage}'
+# 4. Click on 'Signup / Login' button
+driver.find_element(By.LINK_TEXT, 'Signup / Login').click()
+
+# 5. Verify 'Login to your account' is visible
+loginUser = driver.find_element(By.CSS_SELECTOR,'.login-form h2').text
+assert 'Login to your account' in loginUser
+
+# 6. Enter incorrect email address and password
+driver.find_element(By.XPATH, '//input[@data-qa="login-email"]').send_keys(random_email)
+driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys('QA@123')
+
+# 7. Click 'login' button
+driver.find_element(By.XPATH, '//button[@data-qa="login-button"]').click()
+
+# 8. Verify error 'Your email or password is incorrect!' is visible
+assert driver.find_element(By.CSS_SELECTOR, '[action="/login"] p').text == 'Your email or password is incorrect!'
+driver.close()
 #
 #
 # # Test Case 4: Logout User
@@ -250,7 +253,7 @@ name = 'Tulika Singh'
 # # 8. Verify error 'Email Address already exist!' is visible
 # assert driver.find_element(By.CSS_SELECTOR, '[action="/signup"] p').text == 'Email Address already exist!'
 # driver.close()
-
+#
 # # Test Case 6: Contact Us Form
 #
 # # 1. Launch browser
@@ -297,7 +300,7 @@ name = 'Tulika Singh'
 # driver.find_element(By.CSS_SELECTOR, '.btn.btn-success').click()
 # homepage = driver.find_element(By.XPATH, '//h1').text
 # assert 'Automation' in homepage and 'Exercise' in homepage, f'Text not found in header, got: {homepage}'
-
+# driver.close()
 
 # # Test Case 7: Verify Test Cases Page
 #
@@ -316,7 +319,7 @@ name = 'Tulika Singh'
 # driver.find_element(By.XPATH, '//button[text()="Test Cases"]').click()
 #
 # # 5. Verify user is navigated to test cases page successfully
-# assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Test Cases'.upper()
+# assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2 b').text.strip() == 'Test Cases'.upper()
 # driver.close()
 #
 # # Test Case 8: Verify All Products and product detail page
@@ -370,7 +373,7 @@ name = 'Tulika Singh'
 # brand.is_displayed()
 # print(brand.text)
 # driver.close()
-
+#
 # # Test Case 9: Search Product
 #
 # # 1. Launch browser
@@ -403,7 +406,7 @@ name = 'Tulika Singh'
 # searchedProduct.is_displayed()
 # assert searchedProduct.text.__contains__('Green Side Placket Detail')
 # driver.close()
-
+#
 # # Test Case 10: Verify Subscription in home page
 #
 # # 1. Launch browser
@@ -430,7 +433,7 @@ name = 'Tulika Singh'
 # # 7. Verify success message 'You have been successfully subscribed!' is visible
 # assert driver.find_element(By.CSS_SELECTOR, '.alert-success.alert').text == 'You have been successfully subscribed!'
 # driver.close()
-
+#
 # # Test Case 11: Verify Subscription in Cart page
 #
 # # 1. Launch browser
@@ -460,8 +463,8 @@ name = 'Tulika Singh'
 # # 7. Verify success message 'You have been successfully subscribed!' is visible
 # assert driver.find_element(By.CSS_SELECTOR, '.alert-success.alert').text == 'You have been successfully subscribed!'
 # driver.close()
-
-
+#
+#
 # # Test Case 12: Add Products in Cart
 #
 # # 1. Launch browser
@@ -519,8 +522,8 @@ name = 'Tulika Singh'
 # second_product_total_price = total_price[1].text.strip()
 # assert second_product_total_price.__contains__('400'), f'Expected price 500, but got {second_product_total_price}'
 # driver.close()
-
-
+#
+#
 # # Test Case 13: Verify Product quantity in Cart
 #
 # # 1. Launch browser
@@ -556,8 +559,8 @@ name = 'Tulika Singh'
 # # 9. Verify that product is displayed in cart page with exact quantity
 # assert driver.find_element(By.CSS_SELECTOR, '.table.table-condensed tbody tr td:nth-child(4) button').text.strip() == '4'
 # driver.close()
-
-
+#
+#
 # # Test Case 14: Place Order: Register while Checkout
 #
 # # 1. Launch browser
@@ -668,9 +671,9 @@ fake = Faker()
 # driver.find_element(By.CSS_SELECTOR, 'button[data-qa="pay-button"]').click()
 #
 # # 18. Verify success message 'Your order has been placed successfully!'
-# success_message = WebDriverWait(driver, 10).until(
-#     EC.visibility_of_element_located((By.CSS_SELECTOR, '#success_message div'))).text.strip()
-# assert success_message == 'Your order has been placed successfully!'
+# # success_message = WebDriverWait(driver, 10).until(
+# #     EC.visibility_of_element_located((By.CSS_SELECTOR, '#success_message div'))).text.strip()
+# # assert success_message == 'Your order has been placed successfully!'
 #
 # # 19. Click 'Delete Account' button
 # driver.find_element(By.LINK_TEXT, 'Delete Account').click()
@@ -792,8 +795,8 @@ fake = Faker()
 # # # success_message = success_message_element.text
 # # # expected_message = "Your payment has been successfully processed!"
 # # assert success_message == expected_message, f"Expected message: '{expected_message}', but got: '{success_message}'"
-
-
+#
+#
 # # 17. Click 'Delete Account' button
 # driver.find_element(By.LINK_TEXT, 'Delete Account').click()
 #
@@ -819,14 +822,14 @@ fake = Faker()
 # driver.find_element(By.LINK_TEXT, 'Signup / Login').click()
 #
 # # 5. Fill email, password and click 'Login' button
-# name = 'Tulika'
+# name_1 = 'Ponugoti'
 # driver.find_element(By.XPATH, '//input[@data-qa="login-email"]').send_keys('Tulika.singh_20240803222313@yahoo.com')
 # driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys('QA@123')
 # driver.find_element(By.XPATH, '//button[@data-qa="login-button"]').click()
 # time.sleep(2)
 #
 # # 6. Verify 'Logged in as username' at top
-# assert driver.find_element(By.CSS_SELECTOR, 'li a b').text == name
+# assert driver.find_element(By.CSS_SELECTOR, 'li a b').text == name_1
 #
 # # 7. Add products to cart
 # actions = ActionChains(driver)
@@ -836,6 +839,7 @@ fake = Faker()
 # driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[2].click()
 # time.sleep(2)
 # driver.find_element(By.CSS_SELECTOR, '.modal-content div:nth-child(3) button').click()
+# driver.execute_script("window.scrollBy(0,500);")
 # second_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[3]
 # actions.move_to_element(second_product).perform()
 # driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[3].click()
@@ -852,7 +856,7 @@ fake = Faker()
 # driver.find_element(By.CSS_SELECTOR, '.col-sm-6 a').click()
 #
 # # 11. Verify Address Details and Review Your Order
-# assert driver.find_element(By.CSS_SELECTOR, 'li.address_firstname.address_lastname').text.__contains__('Tulika')
+# assert driver.find_element(By.CSS_SELECTOR, 'li.address_firstname.address_lastname').text.__contains__('Sowmya')
 # review_your_order = driver.find_element(By.CSS_SELECTOR, '.cart_description h4 a')
 # print('You\'re ordering: '+review_your_order.text)
 #
@@ -877,8 +881,8 @@ fake = Faker()
 # # success_message = success_message_element.text
 # # expected_message = "Your payment has been successfully processed!"
 # # assert success_message == expected_message, f"Expected message: '{expected_message}', but got: '{success_message}'"
-
-
+#
+#
 # # Test Case 17: Remove Products From Cart
 #
 # # 1. Launch browser
@@ -969,7 +973,7 @@ fake = Faker()
 # # 8. Verify that user is navigated to that category page
 # product_title = driver.find_element(By.CSS_SELECTOR, '.title.text-center').text
 # assert "Men - "+random_options+" Products"
-
+# driver.close()
 
 # # Test Case 19: View & Cart Brand Products
 #
@@ -1055,7 +1059,7 @@ fake = Faker()
 # # 7. Verify all the products related to search are visible
 # time.sleep(1.5)
 # searchedProduct = driver.find_element(By.CSS_SELECTOR, '.productinfo.text-center p')
-# searchedProduct.is_displayed()
+# # searchedProduct.is_displayed()
 # assert searchedProduct.text == random_product_text, f'random Product:{random_product_text},{searchedProduct}'
 #
 # # 8. Add those products to cart
@@ -1117,7 +1121,7 @@ fake = Faker()
 #
 # # 9. Verify success message 'Thank you for your review.'
 # assert driver.find_element(By.CSS_SELECTOR, '.alert-success.alert span').text == 'Thank you for your review.'
-
+#
 
 # # Test Case 22: Add to cart from Recommended items
 #
@@ -1144,7 +1148,7 @@ fake = Faker()
 #     random_product_index = random.randint(0, len(recommended_products) - 1)
 #     selected_product = recommended_products[random_product_index]
 #     selected_product_name = selected_product.text
-#     add_to_cart_button = selected_product.find_element(By.XPATH, './following-sibling::a/i')
+#     add_to_cart_button = WebDriverWait(selected_product, 10).until(EC.element_to_be_clickable((By.XPATH, './following-sibling::a/i')))
 #     add_to_cart_button.click()
 #
 # # 6. Click on 'View Cart' button
@@ -1152,8 +1156,8 @@ fake = Faker()
 #
 # # 7. Verify that product is displayed in cart page
 # assert driver.find_element(By.CSS_SELECTOR, '.table.table-condensed tbody tr td:nth-child(2) h4').text == selected_product_name
-
-
+# driver.close()
+#
 # # Test Case 23: Verify address details in checkout page
 #
 # # 1. Launch browser
@@ -1251,7 +1255,7 @@ fake = Faker()
 # driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
 # driver.close()
 #
-
+#
 # # Test Case 24: Download Invoice after purchase order
 #
 # # 1. Launch browser
@@ -1379,8 +1383,8 @@ fake = Faker()
 # assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Deleted!'.upper()
 # driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
 # driver.close()
-
-
+#
+#
 # # Test Case 25: Verify Scroll Up using 'Arrow' button and Scroll Down functionality
 #
 # # 1. Launch browser
@@ -1405,32 +1409,32 @@ fake = Faker()
 #
 # # 7. Verify that page is scrolled up and 'Full-Fledged practice website for Automation Engineers' text is visible on screen
 # assert driver.find_element(By.CSS_SELECTOR, '.col-sm-6 h2').text == 'Full-Fledged practice website for Automation Engineers'
-
-
-# Test Case 26: Verify Scroll Up without 'Arrow' button and Scroll Down functionality
-
-# 1. Launch browser
-driver = webdriver.Edge()
-driver.maximize_window()
-
-# 2. Navigate to url 'http://automationexercise.com'
-driver.get('https://www.automationexercise.com/')
-
-# 3. Verify that home page is visible successfully
-homepage = driver.find_element(By.XPATH, '//h1').text
-assert 'Automation' in homepage and 'Exercise' in homepage, f'Text not found in header, got: {homepage}'
-
-# 4. Scroll down page to bottom
-driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
-
-# 5. Verify 'SUBSCRIPTION' is visible
-assert driver.find_element(By.CSS_SELECTOR, '.col-sm-3.col-sm-offset-1 h2').text == 'Subscription'.upper()
-
-# 6. Scroll up page to top
-driver.execute_script("window.scrollTo(0, 0);")
-
-# 7. Verify that page is scrolled up and 'Full-Fledged practice website for Automation Engineers' text is visible on screen
-assert driver.find_element(By.CSS_SELECTOR, '.col-sm-6 h2').text == 'Full-Fledged practice website for Automation Engineers'
-
-
+# driver.close()
+#
+#
+# # Test Case 26: Verify Scroll Up without 'Arrow' button and Scroll Down functionality
+#
+# # 1. Launch browser
+# driver = webdriver.Edge()
+# driver.maximize_window()
+#
+# # 2. Navigate to url 'http://automationexercise.com'
+# driver.get('https://www.automationexercise.com/')
+#
+# # 3. Verify that home page is visible successfully
+# homepage = driver.find_element(By.XPATH, '//h1').text
+# assert 'Automation' in homepage and 'Exercise' in homepage, f'Text not found in header, got: {homepage}'
+#
+# # 4. Scroll down page to bottom
+# driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+#
+#
+# # 5. Verify 'SUBSCRIPTION' is visible
+# assert driver.find_element(By.CSS_SELECTOR, '.col-sm-3.col-sm-offset-1 h2').text == 'Subscription'.upper()
+#
+# # 6. Scroll up page to top
+# driver.execute_script("window.scrollTo(0, 0);")
+#
+# # 7. Verify that page is scrolled up and 'Full-Fledged practice website for Automation Engineers' text is visible on screen
+# assert driver.find_element(By.CSS_SELECTOR, '.col-sm-6 h2').text == 'Full-Fledged practice website for Automation Engineers'
+# driver.close()
