@@ -22,8 +22,8 @@ def test_Add_Product_to_cart():
 
     # 5. Hover over first product and click 'Add to cart'
     actions = ActionChains(driver)
-    driver.execute_script('window.scrollTo(0,500);')
     first_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[0]
+    driver.execute_script('arguments[0].scrollIntoView(true);', first_product)
     actions.move_to_element(first_product).perform()
     driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[0].click()
 
@@ -33,6 +33,7 @@ def test_Add_Product_to_cart():
 
     # 7. Hover over second product and click 'Add to cart'
     second_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[1]
+    driver.execute_script('arguments[0].scrollIntoView(true);', second_product)
     actions.move_to_element(second_product).perform()
     driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[1].click()
     time.sleep(2)

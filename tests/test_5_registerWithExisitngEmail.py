@@ -1,8 +1,12 @@
-import faker
+import random
+
+from faker import Faker
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-from tests.test_1_RegisterUser import random_email
+from tests.test_2_loginWithValidCredentials import random_registered_emails
+
+fake = Faker()
 
 
 def test_register_with_already_existing_user():
@@ -26,8 +30,8 @@ def test_register_with_already_existing_user():
     assert 'New User Signup!' in newUserSignup
 
     # 6. Enter name and already registered email address
-    driver.find_element(By.XPATH, '//input[@data-qa="signup-name"]').send_keys('Ahaana')
-    driver.find_element(By.XPATH, '//input[@data-qa="signup-email"]').send_keys('Ashley.Wilsondwalker@example.com')
+    driver.find_element(By.XPATH, '//input[@data-qa="signup-name"]').send_keys(fake.name())
+    driver.find_element(By.XPATH, '//input[@data-qa="signup-email"]').send_keys(random_registered_emails)
 
     # 7. Click 'Signup' button
     driver.find_element(By.XPATH, '//button[@data-qa="signup-button"]').click()

@@ -1,4 +1,6 @@
 import os
+import time
+
 from faker import Faker
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -9,6 +11,7 @@ fake = Faker()
 
 
 def test_verify_contact_us_form():
+
     # 1. Launch browser
     driver = webdriver.Edge()
     driver.maximize_window()
@@ -29,10 +32,9 @@ def test_verify_contact_us_form():
     # 6. Enter name, email, subject and message
     driver.find_element(By.CSS_SELECTOR, 'input[data-qa="name"]').send_keys(fake.name())
     driver.find_element(By.CSS_SELECTOR, 'input[data-qa="email"]').send_keys(random_email)
-    driver.find_element(By.CSS_SELECTOR, 'input[data-qa="subject"]').send_keys(fake.sentence(nb_words=25))
+    driver.find_element(By.CSS_SELECTOR, 'input[data-qa="subject"]').send_keys(fake.sentence(nb_words=15))
     driver.find_element(By.CSS_SELECTOR, 'textarea[data-qa="message"]').send_keys(fake.paragraph(nb_sentences=5))
-    # 'Hello,\nI hope you are doing well, now i want to keep you informed that i got a defect piece in my latest order delivery.\nI hope you sort this as early as possible.\nThank you.'
-
+    
     # 7. Upload file
     filepath = os.path.abspath('C:\\Users\\VENKAT JAYASURYA\\Downloads\\orders.csv')
     driver.find_element(By.NAME, 'upload_file').send_keys(filepath)

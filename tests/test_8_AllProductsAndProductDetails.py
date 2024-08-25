@@ -26,11 +26,12 @@ def test_verify_products_and_product_details():
     # 6. The products list is visible
     products = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')
     assert len(products) > 0, 'No products found on the page'
+    random_product_index = random.randrange(0, len(products))
     print(f'Number of products visible: {len(products)}')
 
-    # 7. Click on 'View Product' of first product
-    driver.execute_script('window.scrollBy(0, 500);')
-    driver.find_element(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper div[class="choose"] ul li a').click()
+    # 7. Click on 'View Product' of first/any product
+    driver.execute_script('arguments[0].scrollIntoView(true);', products[random_product_index])
+    products[random_product_index].find_element(By.CSS_SELECTOR, 'div[class="choose"] ul li a').click()
 
     # 8. User is landed to product detail page
     driver.find_element(By.CSS_SELECTOR, '.newarrival').is_displayed()

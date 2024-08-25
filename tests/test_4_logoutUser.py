@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+from tests.test_1_RegisterUser import common_password
+
 
 def test_logout_of_application():
 
@@ -23,14 +25,14 @@ def test_logout_of_application():
     assert 'Login to your account' in loginUser
 
     # 6. Enter correct email address and password
-    driver.find_element(By.XPATH, '//input[@data-qa="login-email"]').send_keys('Tulika.singh_20240803225822@yahoo.com')
-    driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys('QA@123')
+    driver.find_element(By.XPATH, '//input[@data-qa="login-email"]').send_keys('Joshua.Nguyenzwilliams@example.org')
+    driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys(common_password)
 
     # 7. Click 'login' button
     driver.find_element(By.XPATH, '//button[@data-qa="login-button"]').click()
 
     # 8. Verify that 'Logged in as username' is visible
-    name = 'Tulika'
+    name = 'Joshua'
     assert driver.find_element(By.CSS_SELECTOR, 'li a b').text.__contains__(name)
 
     # 9. Click 'Logout' button

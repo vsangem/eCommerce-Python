@@ -1,3 +1,4 @@
+import random
 import time
 
 from selenium import webdriver
@@ -19,7 +20,11 @@ def test_product_quantity_in_cart():
 
     # 4. Click 'View Product' for any product on home page
     driver.execute_script('window.scrollBy(0, 500);')
-    driver.find_element(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper div[class="choose"] ul li a').click()
+    view_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper div[class="choose"] ul li a')
+    assert len(view_product) > 0
+    random_product_details = random.choice(view_product)
+    driver.execute_script('arguments[0].scrollIntoView(true);', random_product_details)
+    random_product_details.click()
 
     # 5. Verify product detail is opened
     driver.find_element(By.CSS_SELECTOR, '.newarrival').is_displayed()

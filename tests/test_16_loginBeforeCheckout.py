@@ -1,9 +1,12 @@
+import random
 import time
 
 from faker import Faker
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+
+from tests.test_1_RegisterUser import common_password
 
 
 def test_login_before_checkout():
@@ -25,7 +28,7 @@ def test_login_before_checkout():
     # 5. Fill email, password and click 'Login' button
     name_1 = 'Austin'
     driver.find_element(By.XPATH, '//input[@data-qa="login-email"]').send_keys('Austin.Campbellsonyathomas@hotmail.com')
-    driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys('QA@123')
+    driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys(common_password)
     driver.find_element(By.XPATH, '//button[@data-qa="login-button"]').click()
     time.sleep(2)
 
@@ -34,16 +37,19 @@ def test_login_before_checkout():
 
     # 7. Add products to cart
     actions = ActionChains(driver)
-    driver.execute_script("window.scrollBy(0, 500);")
-    first_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[2]
-    actions.move_to_element(first_product).perform()
-    driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[2].click()
+
+    first_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')
+    random_first_product = random.choice(first_product)
+    actions.move_to_element(random_first_product).perform()
+    random_first_product.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[0].click()
     time.sleep(2)
     driver.find_element(By.CSS_SELECTOR, '.modal-content div:nth-child(3) button').click()
-    driver.execute_script("window.scrollBy(0,500);")
-    second_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[3]
-    actions.move_to_element(second_product).perform()
-    driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[3].click()
+
+    second_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')
+    random_second_product = random.choice(second_product)
+    driver.execute_script('arguments[0].scrollIntoView(true);', random_second_product)
+    actions.move_to_element(random_second_product).perform()
+    random_second_product.find_element(By.CSS_SELECTOR, '.product-overlay div a').click()
     time.sleep(2)
     driver.find_element(By.CSS_SELECTOR, '.modal-content div:nth-child(3) button').click()
 
@@ -67,10 +73,10 @@ def test_login_before_checkout():
 
     # 13. Enter payment details: Name on Card, Card Number, CVC, Expiration date
     fake = Faker()
-    driver.find_element(By.CSS_SELECTOR, 'input[data-qa="name-on-card"]').send_keys(fake.name_male())
+    driver.find_element(By.CSS_SELECTOR, 'input[data-qa="name-on-card"]').send_keys(name_1)
     driver.find_element(By.CSS_SELECTOR, 'input[data-qa="card-number"]').send_keys(fake.credit_card_number())
     driver.find_element(By.CSS_SELECTOR, 'input[data-qa="cvc"]').send_keys(fake.credit_card_security_code())
-    driver.find_element(By.CSS_SELECTOR, 'input[data-qa="expiry-month"]').send_keys('10')
+    driver.find_element(By.CSS_SELECTOR, 'input[data-qa="expiry-month"]').send_keys(str(random.randint(1,12)))
     driver.find_element(By.CSS_SELECTOR, 'input[data-qa="expiry-year"]').send_keys('1999')
 
     # 14. Click 'Pay and Confirm Order' button

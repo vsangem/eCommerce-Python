@@ -6,8 +6,6 @@ from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from tests.test_1_RegisterUser import first_name, random_email, last_name
 
@@ -28,15 +26,19 @@ def test_register_new_user_while_checkout_():
 
     # 4. Add products to cart
     actions = ActionChains(driver)
-    driver.execute_script('window.scrollBy(0, 500);')
-    first_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[0]
-    actions.move_to_element(first_product).perform()
-    driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[0].click()
+    first_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')
+    random_first_product = random.choice(first_product)
+    driver.execute_script('arguments[0].scrollIntoView(true);', random_first_product)
+    actions.move_to_element(random_first_product).perform()
+    random_first_product.find_element(By.CSS_SELECTOR, '.product-overlay div a').click()
     time.sleep(2)
     driver.find_element(By.CSS_SELECTOR, '.modal-content div:nth-child(3) button').click()
-    second_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[1]
-    actions.move_to_element(second_product).perform()
-    driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[1].click()
+
+    second_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')
+    random_second_product = random.choice(second_product)
+    driver.execute_script('arguments[0].scrollIntoView(true);', random_second_product)
+    actions.move_to_element(random_second_product).perform()
+    random_second_product.find_element(By.CSS_SELECTOR, '.product-overlay div a').click()
     time.sleep(2)
     driver.find_element(By.CSS_SELECTOR, '.modal-content div:nth-child(3) button').click()
 

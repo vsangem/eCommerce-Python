@@ -1,3 +1,4 @@
+import random
 import time
 
 from selenium import webdriver
@@ -20,16 +21,19 @@ def test_remove_products_from_cart():
 
     # 4. Add products to cart
     actions = ActionChains(driver)
-    driver.execute_script("window.scrollBy(0, 1000);")
-    first_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[4]
-    actions.move_to_element(first_product).perform()
-    time.sleep(1)
-    driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[4].click()
+    first_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')
+    random_first_product = random.choice(first_product)
+    driver.execute_script('arguments[0].scrollIntoView(true);', random_first_product)
+    actions.move_to_element(random_first_product).perform()
+    random_first_product.find_element(By.CSS_SELECTOR, '.product-overlay div a').click()
     time.sleep(2)
     driver.find_element(By.CSS_SELECTOR, '.modal-content div:nth-child(3) button').click()
-    second_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[5]
-    actions.move_to_element(second_product).perform()
-    driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[5].click()
+
+    second_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')
+    random_second_product = random.choice(second_product)
+    driver.execute_script('arguments[0].scrollIntoView(true);', random_second_product)
+    actions.move_to_element(random_second_product).perform()
+    random_second_product.find_element(By.CSS_SELECTOR, '.product-overlay div a').click()
     time.sleep(2)
     driver.find_element(By.CSS_SELECTOR, '.modal-content div:nth-child(3) button').click()
 

@@ -1,13 +1,21 @@
+import random
 import time
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+from tests.test_1_RegisterUser import common_password
+
+registered_emails = ['Joshua.Nguyenzwilliams@example.org', 'Ashley.Wilsondwalker@example.com',
+                             'Austin.Campbellsonyathomas@hotmail.com', 'Jennifer.Collinsmillercharles@hotmail.com',
+                             'Tulika.singh_20240803225822@yahoo.com']
+random_registered_emails = random.choice(registered_emails)
+
 
 def test_login_with_valid_credentials():
 
     # 1. Launch browser
-    driver = webdriver.Edge()
+    driver = webdriver.Chrome()
     driver.maximize_window()
 
     # 2. Navigate to url 'http://automationexercise.com'
@@ -25,8 +33,8 @@ def test_login_with_valid_credentials():
     assert 'Login to your account' in loginUser
 
     # 6. Enter correct email address and password
-    driver.find_element(By.XPATH, '//input[@data-qa="login-email"]').send_keys('Joshua.Nguyenzwilliams@example.org')
-    driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys('QA@123')
+    driver.find_element(By.XPATH, '//input[@data-qa="login-email"]').send_keys(random_registered_emails)
+    driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys(common_password)
 
     # 7. Click 'login' button
     driver.find_element(By.XPATH, '//button[@data-qa="login-button"]').click()

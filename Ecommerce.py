@@ -12,9 +12,10 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# Joshua.Nguyenzwilliams@example.org
-# Ashley.Wilsondwalker@example.com
-# Austin.Campbellsonyathomas@hotmail.com
+#
+#
+#
+#
 # QA@123
 
 # ************* 14 - Error is thrown check it, Remove All hard coding, 19, 20, 22

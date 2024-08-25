@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-from tests.test_1_RegisterUser import random_email
+from tests.test_1_RegisterUser import random_email, common_password
 
 
 def test_login_with_invalid_credentials():
@@ -26,7 +26,7 @@ def test_login_with_invalid_credentials():
 
     # 6. Enter incorrect email address and password
     driver.find_element(By.XPATH, '//input[@data-qa="login-email"]').send_keys(random_email)
-    driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys('QA@123')
+    driver.find_element(By.XPATH, '//input[@data-qa="login-password"]').send_keys(common_password)
 
     # 7. Click 'login' button
     driver.find_element(By.XPATH, '//button[@data-qa="login-button"]').click()

@@ -16,6 +16,7 @@ fake = Faker()
 first_name = fake.first_name()
 last_name = fake.last_name()
 random_email = f"{first_name}.{last_name}{fake.email(domain='hotmail.com')}"
+common_password = 'QA@123'
 
 
 def test_create_a_new_user():
@@ -38,8 +39,7 @@ def test_create_a_new_user():
     assert 'New User Signup!' in new_user_signup
 
     # Enter name and email address
-    user_name = first_name # 'Ahaana Singh'
-    driver.find_element(By.XPATH, '//input[@data-qa="signup-name"]').send_keys(user_name)
+    driver.find_element(By.XPATH, '//input[@data-qa="signup-name"]').send_keys(first_name)
     driver.find_element(By.XPATH, '//input[@data-qa="signup-email"]').send_keys(random_email)
 
     # Click 'Signup' button
@@ -52,7 +52,7 @@ def test_create_a_new_user():
     # Fill details: Title, Name, Email, Password, Date of birth
     driver.find_element(By.CSS_SELECTOR, '#id_gender2').click()
     assert driver.find_element(By.CSS_SELECTOR, '#email').get_property('value') == random_email
-    driver.find_element(By.CSS_SELECTOR, '#password').send_keys('QA@123')
+    driver.find_element(By.CSS_SELECTOR, '#password').send_keys(common_password)
     days = driver.find_element(By.CSS_SELECTOR, '#days')
     select_day = Select(days)
     select_day.select_by_index(21)
@@ -66,8 +66,7 @@ def test_create_a_new_user():
     select_year.select_by_value('2005')
     driver.execute_script("window.scrollBy(0, 500);")
 
-    print(f'first Name is {first_name}\n', 'last Name is {last_name}\n', f'Email is {random_email}\n',
-          f'user name is {user_name}')
+    print(f'first Name is {first_name}\n', f'Email is {random_email}\n')
 
     # Select checkbox 'Sign up for our newsletter!'
     driver.find_element(By.CSS_SELECTOR, '.checkbox div span input#newsletter').click()
@@ -100,12 +99,12 @@ def test_create_a_new_user():
     driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
 
     # Verify that 'Logged in as username' is visible
-    assert driver.find_element(By.CSS_SELECTOR, 'li a b').text == user_name
+    assert driver.find_element(By.CSS_SELECTOR, 'li a b').text == first_name
 
-    # Click 'Delete Account' button
-    driver.find_element(By.LINK_TEXT, 'Delete Account').click()
-
-    # Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
-    assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Deleted!'.upper()
-    driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
+    # # Click 'Delete Account' button
+    # driver.find_element(By.LINK_TEXT, 'Delete Account').click()
+    #
+    # # Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
+    # assert driver.find_element(By.CSS_SELECTOR, '.col-sm-9.col-sm-offset-1 h2').text == 'Account Deleted!'.upper()
+    # driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary').click()
 
