@@ -1,3 +1,4 @@
+import random
 import time
 
 from faker import Faker
@@ -8,13 +9,15 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from tests.test_1_RegisterUser import first_name, random_email
+from tests.test_1_RegisterUser import first_name, random_email, last_name
 
 
 def test_register_new_user_while_checkout_():
+
     # 1. Launch browser
     driver = webdriver.Edge()
     driver.maximize_window()
+    fake = Faker()
 
     # 2. Navigate to url 'http://automationexercise.com'
     driver.get('https://www.automationexercise.com/')
@@ -25,6 +28,7 @@ def test_register_new_user_while_checkout_():
 
     # 4. Add products to cart
     actions = ActionChains(driver)
+    driver.execute_script('window.scrollBy(0, 500);')
     first_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[0]
     actions.move_to_element(first_product).perform()
     driver.find_elements(By.CSS_SELECTOR, '.product-overlay div a')[0].click()
@@ -60,7 +64,7 @@ def test_register_new_user_while_checkout_():
 
     month = driver.find_element(By.CSS_SELECTOR, '#months')
     select_month = Select(month)
-    select_month.select_by_index(5)
+    select_month.select_by_index(random.randint(0,11))
 
     year = driver.find_element(By.CSS_SELECTOR, '#years')
     select_year = Select(year)
@@ -70,18 +74,18 @@ def test_register_new_user_while_checkout_():
 
     driver.find_element(By.CSS_SELECTOR, '.checkbox div span input#optin').click()
 
-    driver.find_element(By.CSS_SELECTOR, 'input#first_name').send_keys("Trisha")
-    driver.find_element(By.CSS_SELECTOR, 'input#last_name').send_keys('Krishnan')
-    driver.find_element(By.CSS_SELECTOR, 'input#company').send_keys('Kollywood Film Industry')
-    driver.find_element(By.CSS_SELECTOR, 'input#address1').send_keys('Chennai')
-    driver.find_element(By.CSS_SELECTOR, 'input#address2').send_keys('TamilNadu')
+    driver.find_element(By.CSS_SELECTOR, 'input#first_name').send_keys(first_name)
+    driver.find_element(By.CSS_SELECTOR, 'input#last_name').send_keys(last_name)
+    driver.find_element(By.CSS_SELECTOR, 'input#company').send_keys(fake.company())
+    driver.find_element(By.CSS_SELECTOR, 'input#address1').send_keys(fake.street_name())
+    driver.find_element(By.CSS_SELECTOR, 'input#address2').send_keys(fake.address())
     country = driver.find_element(By.CSS_SELECTOR, 'select#country')
     select_country = Select(country)
     select_country.select_by_visible_text('Singapore')
-    driver.find_element(By.CSS_SELECTOR, 'input#state').send_keys('Central Region')
-    driver.find_element(By.CSS_SELECTOR, 'input#city').send_keys('Marine Parade')
-    driver.find_element(By.CSS_SELECTOR, 'input#zipcode').send_keys('449307')
-    driver.find_element(By.CSS_SELECTOR, 'input#mobile_number').send_keys('9876543210')
+    driver.find_element(By.CSS_SELECTOR, 'input#state').send_keys(fake.state())
+    driver.find_element(By.CSS_SELECTOR, 'input#city').send_keys(fake.city())
+    driver.find_element(By.CSS_SELECTOR, 'input#zipcode').send_keys(fake.zipcode())
+    driver.find_element(By.CSS_SELECTOR, 'input#mobile_number').send_keys(fake.phone_number())
 
     driver.execute_script("window.scrollBy(0, 500);")
     driver.find_element(By.XPATH, '//button[text()="Create Account"]').click()
@@ -100,12 +104,12 @@ def test_register_new_user_while_checkout_():
     driver.find_element(By.CSS_SELECTOR, '.col-sm-6 a').click()
 
     # 14. Verify Address Details and Review Your Order
-    assert driver.find_element(By.CSS_SELECTOR, 'li.address_firstname.address_lastname').text.__contains__('Trisha')
+    assert driver.find_element(By.CSS_SELECTOR, 'li.address_firstname.address_lastname').text.__contains__(first_name)
     review_your_order = driver.find_element(By.CSS_SELECTOR, '.cart_description h4 a')
     print('You\'re ordering: '+review_your_order.text)
 
     # 15. Enter description in comment text area and click 'Place Order'
-    driver.find_element(By.CSS_SELECTOR, '.form-control').send_keys('Nothing to Add, Please Proceed!')
+    driver.find_element(By.CSS_SELECTOR, '.form-control').send_keys(fake.paragraph(nb_sentences=5))
     driver.find_element(By.CSS_SELECTOR, '.btn.btn-default.check_out').click()
 
     # 16. Enter payment details: Name on Card, Card Number, CVC, Expiration date
@@ -113,7 +117,7 @@ def test_register_new_user_while_checkout_():
     driver.find_element(By.CSS_SELECTOR, 'input[data-qa="name-on-card"]').send_keys(fake.name_male())
     driver.find_element(By.CSS_SELECTOR, 'input[data-qa="card-number"]').send_keys(fake.credit_card_number())
     driver.find_element(By.CSS_SELECTOR, 'input[data-qa="cvc"]').send_keys(fake.credit_card_security_code())
-    driver.find_element(By.CSS_SELECTOR, 'input[data-qa="expiry-month"]').send_keys('10')
+    driver.find_element(By.CSS_SELECTOR, 'input[data-qa="expiry-month"]').send_keys(fake.month())
     driver.find_element(By.CSS_SELECTOR, 'input[data-qa="expiry-year"]').send_keys('1999')
 
     # 17. Click 'Pay and Confirm Order' button

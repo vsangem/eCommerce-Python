@@ -69,6 +69,7 @@ def test_verify_address_in_checkout_page():
     assert driver.find_element(By.CSS_SELECTOR, 'li a b').text == first_name
 
     # 8. Add products to cart
+    driver.execute_script('window.scrollBy(0, 500);')
     actions = ActionChains(driver)
     first_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[0]
     actions.move_to_element(first_product).perform()

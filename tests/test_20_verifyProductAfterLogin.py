@@ -38,6 +38,7 @@ def test_verify_products_in_cart_after_login():
     assert searchedProduct.text == random_product_text, f'random Product:{random_product_text},{searchedProduct}'
 
     # 8. Add those products to cart
+    driver.execute_script('window.scrollBy(0, 500);')
     actions = ActionChains(driver)
     first_product = driver.find_elements(By.CSS_SELECTOR, '.col-sm-4 div.product-image-wrapper')[0]
     actions.move_to_element(first_product).perform()
